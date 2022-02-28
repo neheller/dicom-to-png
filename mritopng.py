@@ -32,6 +32,10 @@ def mri_to_png(mri_file, png_file):
             col_scaled = int((float(col) / float(max_val)) * 255.0)
             row_scaled.append(col_scaled)
         image_2d_scaled.append(row_scaled)
+    
+    #check if the image is negative and invert it back
+    if(plan[0x00280004].value=='MONOCHROME1'):
+        image_2d_scaled = np.absolute(np.subtract(255.0,image_2d_scaled))
 
     # Writing the PNG file
     w = png.Writer(shape[1], shape[0], greyscale=True)
